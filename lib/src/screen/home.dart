@@ -10,8 +10,8 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _controller = TextEditingController();
   final ValueNotifier<String> _textNotifier = ValueNotifier<String>('');
+  final ValueNotifier<double> _axisNotifier = ValueNotifier<double>(0.6);
 
-  bool isDarkMode = true;
   @override
   void initState() {
     super.initState();
@@ -20,9 +20,9 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void _toggleTHeme() {
+  void handleAxisChange(double value) {
     setState(() {
-      isDarkMode = !isDarkMode;
+      _axisNotifier.value = value;
     });
   }
 
@@ -30,12 +30,6 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          onPressed: _toggleTHeme,
-          icon: isDarkMode
-              ? const Icon(Icons.wb_sunny)
-              : const Icon(Icons.nightlight_round),
-        ),
         title: const Text("Sci Calculator"),
         centerTitle: true,
       ),
@@ -45,9 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
             flex: 1,
             child: Display(textNotifier: _textNotifier),
           ),
-          Expanded(
-            flex: 2,
-            child: KeyPad(controller: _controller),
+          SizedBox(
+            height: MediaQuery.of(context).size.height * _axisNotifier.value,
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: KeyPad(
+                  controller: _controller, axisManager: handleAxisChange),
+            ),
           ),
         ],
       ),

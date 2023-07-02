@@ -37,9 +37,13 @@ class Results {
   }
 
   static double calculate(String text) {
-    text = text.replaceAll(' ', '');
-    RegExp exp = RegExp(
-        r'(\d+\.?\d*)([-+x/]|(?:sin|cos|tan|asin|acos|atan|log|ln|√))(\d+\.?\d*)');
+    text = text.replaceAll('SIN', '0SIN');
+    text = text.replaceAll('COS', '0COS');
+    text = text.replaceAll('TAN', '0TAN');
+    text = text.replaceAll('√', '0√');
+    text = text.replaceAll('π', 'π0');
+
+    RegExp exp = RegExp(r'(\d+\.?\d*)([-+x%/]|SIN|COS|TAN|√|π)(\d+\.?\d*)');
     while (text.contains(exp)) {
       Match? match = exp.firstMatch(text);
       if (match != null) {
@@ -63,36 +67,23 @@ class Results {
           case '%':
             result = remainder(num, opr);
             break;
-          case '^':
-            result = pow(num, opr);
+          case '√':
+            result = sqrt(opr + 0);
             break;
-          case 'sin':
-            result = sin(num);
+          case 'π':
+            result = num * math.pi;
             break;
-          case 'cos':
-            result = cos(num);
+          case 'SIN':
+            result = sin(opr);
             break;
-          case 'tan':
-            result = tan(num);
+          case 'COS':
+            result = cos(opr);
             break;
-          case 'asin':
-            result = asin(num);
+          case 'TAN':
+            result = tan(opr);
             break;
-          case 'acos':
-            result = acos(num);
-            break;
-          case 'atan':
-            result = atan(num);
-            break;
-          case 'log':
-            result = log(num);
-            break;
-          case 'ln':
-            result = ln(num);
-            break;
-          case 'sqrt':
-            result = sqrt(num);
-            break;
+          case '':
+            result = multiply(num, opr);
           default:
             throw Exception("Invalid operator");
         }

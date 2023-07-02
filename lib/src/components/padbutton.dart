@@ -17,10 +17,12 @@ class PadButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double containerSize = MediaQuery.of(context).size.width / 5;
     return Container(
       decoration: BoxDecoration(
         color: Colors.grey[850],
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(containerSize / 2),
+        
       ),
       child: Center(
         child: text == 'TRIG' || text == 'DEL'
@@ -42,7 +44,7 @@ class PadButton extends StatelessWidget {
                   ),
                   shape: MaterialStateProperty.all(
                     RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
+                      borderRadius: BorderRadius.circular(containerSize / 2),
                     ),
                   ),
                 ),

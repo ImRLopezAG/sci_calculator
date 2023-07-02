@@ -3,8 +3,11 @@ import 'package:sci_calculator/src/src.dart';
 
 class KeyPad extends StatefulWidget {
   final TextEditingController controller;
+  final Function(double) axisManager;
 
-  const KeyPad({Key? key, required this.controller}) : super(key: key);
+  const KeyPad(
+      {Key? key, required this.controller, required this.axisManager})
+      : super(key: key);
 
   @override
   State<KeyPad> createState() => _KeyPadState();
@@ -34,58 +37,24 @@ class _KeyPadState extends State<KeyPad> {
     "=",
   ];
   final List<String> operators = ["+", "-", "x", "/", '%'];
-  final List<String> trigonometric = [
-    "C",
-    "%",
-    "/",
-    "DEL",
-    "SIN",
-    "COS",
-    "9",
-    "8",
-    "7",
-    "x",
-    "TAN",
-    "LOG",
-    "6",
-    "5",
-    "4",
-    "-",
-    "ASIN",
-    "ACOS",
-    "3",
-    "2",
-    "1",
-    "+",
-    "ATAN",
-    "LN",
-    "TRIG",
-    "0",
-    ".",
-    "=",
-    "√",
-    "π",
-  ];
 
   int axis = 4;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: GridView.builder(
-        itemCount: buttons.length,
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: axis,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return PadButton(
-            text: buttons[index],
-            handleTap: () => _handleButtonPress(buttons[index]),
-            isEnabled: !_disableOperators(buttons[index]),
-            size: axis == 4 ? 24 : 18,
-          );
-        },
+    return GridView.builder(
+      itemCount: buttons.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: axis,
       ),
+      itemBuilder: (BuildContext context, int index) {
+        return PadButton(
+          text: buttons[index],
+          handleTap: () => _handleButtonPress(buttons[index]),
+          isEnabled: !_disableOperators(buttons[index]),
+          size: axis == 4 ? 24 : 18,
+        );
+      },
     );
   }
 
@@ -105,10 +74,14 @@ class _KeyPadState extends State<KeyPad> {
         widget.controller.text = result.toString();
         setState(() {});
       } catch (e) {
-        widget.controller.text = "Error";
+        widget.controller.text = "Invalid Syntax Error";
+        Future.delayed(
+            const Duration(milliseconds: 500), () => widget.controller.clear());
+        setState(() {});
       }
     } else if (text == "TRIG") {
       buttons.contains("SIN") ? _restore() : _addTrigonometric();
+      widget.axisManager(axis == 4 ? 0.6 : 0.47);
       setState(() {
         buttons;
       });
