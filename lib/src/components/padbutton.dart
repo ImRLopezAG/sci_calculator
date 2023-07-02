@@ -1,0 +1,62 @@
+import 'package:flutter/material.dart';
+import 'package:sci_calculator/src/src.dart';
+
+class PadButton extends StatelessWidget {
+  final String text;
+  final VoidCallback handleTap;
+  final bool isEnabled;
+  final double size;
+
+  const PadButton({
+    Key? key,
+    required this.text,
+    required this.handleTap,
+    this.isEnabled = true,
+    this.size = 24,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Colors.grey[850],
+        borderRadius: BorderRadius.circular(8),
+      ),
+      child: Center(
+        child: text == 'TRIG' || text == 'DEL'
+            ? IconButton(
+                onPressed: handleTap,
+                icon: Icon(
+                  text == 'TRIG' ? Icons.square_foot_rounded : Icons.backspace,
+                  size: size == 18 ? 24 : 35,
+                  color: AppTheme.primaryColor,
+                ))
+            : TextButton(
+                onPressed: isEnabled ? handleTap : null,
+                style: ButtonStyle(
+                  backgroundColor: MaterialStateProperty.all(
+                    isEnabled ? Colors.grey[850] : Colors.grey[800],
+                  ),
+                  padding: MaterialStateProperty.all(
+                    const EdgeInsets.all(24),
+                  ),
+                  shape: MaterialStateProperty.all(
+                    RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                ),
+                child: Text(
+                  text,
+                  style: TextStyle(
+                    fontSize: size,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontFamily: "RobotoMono",
+                  ),
+                ),
+              ),
+      ),
+    );
+  }
+}
