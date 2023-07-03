@@ -9,7 +9,7 @@ class Results {
 
   static double divide(double x, double y) => x / y;
 
-  static double remainder(double x, double y) => x % y;
+  static double pow(double x, double y) => math.pow(x, y).toDouble();
 
   static double sin(double x) => math.sin(x);
 
@@ -17,19 +17,9 @@ class Results {
 
   static double tan(double x) => math.tan(x);
 
-  static double asin(double x) => math.asin(x);
-
-  static double acos(double x) => math.acos(x);
-
-  static double atan(double x) => math.atan(x);
-
-  static double log(double x) => math.log(x);
-
   static double ln(double x) => math.log(x) / math.log(math.e);
 
   static double sqrt(double x) => math.sqrt(x);
-
-  static double pow(double x, double y) => math.pow(x, y).toDouble();
 
   static double factorial(double x) {
     if (x == 0) return 1;
@@ -41,9 +31,9 @@ class Results {
     text = text.replaceAll('COS', '0COS');
     text = text.replaceAll('TAN', '0TAN');
     text = text.replaceAll('√', '0√');
-    text = text.replaceAll('π', 'π0');
+    text = text.replaceAll('LN', '0LN');
 
-    RegExp exp = RegExp(r'(\d+\.?\d*)([-+x%/]|SIN|COS|TAN|√|π)(\d+\.?\d*)');
+    RegExp exp = RegExp(r'(\d+\.?\d*)?([-+x^/]|SIN|COS|TAN|LN|√)(\d+\.?\d*)');
     while (text.contains(exp)) {
       Match? match = exp.firstMatch(text);
       if (match != null) {
@@ -64,14 +54,14 @@ class Results {
           case '/':
             result = divide(num, opr);
             break;
-          case '%':
-            result = remainder(num, opr);
+          case '^':
+            result = pow(num, opr);
             break;
           case '√':
             result = sqrt(opr + 0);
             break;
-          case 'π':
-            result = num * math.pi;
+          case 'LN':
+            result = ln(opr);
             break;
           case 'SIN':
             result = sin(opr);
@@ -82,8 +72,6 @@ class Results {
           case 'TAN':
             result = tan(opr);
             break;
-          case '':
-            result = multiply(num, opr);
           default:
             throw Exception("Invalid operator");
         }

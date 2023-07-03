@@ -22,14 +22,17 @@ class PadButton extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.grey[850],
         borderRadius: BorderRadius.circular(containerSize / 2),
-        
       ),
       child: Center(
-        child: text == 'TRIG' || text == 'DEL'
+        child: text == 'TRIG' || text == 'DEL' || text == 'C'
             ? IconButton(
                 onPressed: handleTap,
                 icon: Icon(
-                  text == 'TRIG' ? Icons.square_foot_rounded : Icons.backspace,
+                  text == 'TRIG'
+                      ? Icons.square_foot_rounded
+                      : text == 'DEL'
+                          ? Icons.keyboard_backspace_rounded
+                          : Icons.refresh_rounded,
                   size: size == 18 ? 24 : 35,
                   color: AppTheme.primaryColor,
                 ))

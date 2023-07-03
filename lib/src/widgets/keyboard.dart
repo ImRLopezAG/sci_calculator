@@ -4,9 +4,13 @@ import 'package:sci_calculator/src/src.dart';
 class KeyPad extends StatefulWidget {
   final TextEditingController controller;
   final Function(double) axisManager;
+  final Function(String) setLastText;
 
   const KeyPad(
-      {Key? key, required this.controller, required this.axisManager})
+      {Key? key,
+      required this.controller,
+      required this.axisManager,
+      required this.setLastText})
       : super(key: key);
 
   @override
@@ -16,7 +20,7 @@ class KeyPad extends StatefulWidget {
 class _KeyPadState extends State<KeyPad> {
   final List<String> buttons = [
     "C",
-    "%",
+    "^",
     "/",
     "DEL",
     "9",
@@ -36,8 +40,7 @@ class _KeyPadState extends State<KeyPad> {
     ".",
     "=",
   ];
-  final List<String> operators = ["+", "-", "x", "/", '%'];
-
+  final List<String> operators = ["+", "-", "x", "/", '^'];
   int axis = 4;
 
   @override
@@ -71,7 +74,8 @@ class _KeyPadState extends State<KeyPad> {
     } else if (text == "=") {
       try {
         final result = Results.calculate(currentText);
-        widget.controller.text = result.toString();
+        widget.controller.text = "$result";
+        widget.setLastText(result.toString());
         setState(() {});
       } catch (e) {
         widget.controller.text = "Invalid Syntax Error";
@@ -109,7 +113,7 @@ class _KeyPadState extends State<KeyPad> {
     buttons.clear();
     buttons.addAll([
       "C",
-      "%",
+      "^",
       "/",
       "DEL",
       "9",
@@ -136,7 +140,7 @@ class _KeyPadState extends State<KeyPad> {
     buttons.clear();
     buttons.addAll([
       "C",
-      "%",
+      "^",
       "/",
       "DEL",
       "SIN",
@@ -154,7 +158,7 @@ class _KeyPadState extends State<KeyPad> {
       "2",
       "1",
       "+",
-      "π",
+      "LN",
       "TRIG",
       "0",
       ".",
