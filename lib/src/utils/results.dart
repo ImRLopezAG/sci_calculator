@@ -21,11 +21,6 @@ class Results {
 
   static double sqrt(double x) => math.sqrt(x);
 
-  static double factorial(double x) {
-    if (x == 0) return 1;
-    return x * factorial(x - 1);
-  }
-
   static double calculate(String text) {
     text = text.replaceAll('SIN', '0SIN');
     text = text.replaceAll('COS', '0COS');
@@ -33,7 +28,7 @@ class Results {
     text = text.replaceAll('√', '0√');
     text = text.replaceAll('LN', '0LN');
 
-    RegExp exp = RegExp(r'(\d+\.?\d*)?([-+x^/]|SIN|COS|TAN|LN|√)(\d+\.?\d*)');
+    RegExp exp = RegExp(r'(\d+\.?\d*)([-+x^/]|SIN|COS|TAN|LN|√)(\d+\.?\d*)');
     while (text.contains(exp)) {
       Match? match = exp.firstMatch(text);
       if (match != null) {
@@ -80,6 +75,4 @@ class Results {
     }
     return double.parse(text);
   }
-
-  static double answer = 0;
 }

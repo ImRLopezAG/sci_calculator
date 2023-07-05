@@ -21,8 +21,7 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
-  void handleAxisChange(double value) =>
-      setState(() => _axisNotifier.value = value);
+  void _handleAxisChange(double value) => setState(() => _axisNotifier.value = value);
 
   void _setLastText(String text) => setState(() => _lastNotifier.value = text);
 
@@ -44,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
             height: MediaQuery.of(context).size.height * _axisNotifier.value,
             child: KeyPad(
                 controller: _controller,
-                axisManager: handleAxisChange,
+                axisManager: _handleAxisChange,
                 setLastText: _setLastText),
           ),
         ],
